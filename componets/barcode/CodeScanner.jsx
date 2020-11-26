@@ -23,8 +23,6 @@ export default function App() {
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
 
-    alert(`Código: ${data}`);
-
     handleBack(data);
   };
 
