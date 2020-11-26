@@ -9,8 +9,8 @@ import logo from "../assets/logo.png";
 export default function Landing() {
   const navigation = useNavigation();
 
-  const handleOpenCamera = () => {
-    navigation.navigate("Codebar");
+  const handleRegisterOS = () => {
+    navigation.navigate("registerOS");
   };
 
   return (
@@ -24,10 +24,19 @@ export default function Landing() {
         title="Ler código de barras"
         style={styles.camBtn}
         onPress={() => {
-          handleOpenCamera();
+          handleRegisterOS();
         }}
       >
-        <Text style={styles.camBtnTxt}>Abrir leitor de códigos de barras</Text>
+        <Text style={styles.camBtnTxt}>Registrar Nova OS</Text>
+      </RectButton>
+      <RectButton
+        title="Ler código de barras"
+        style={styles.camBtnList}
+        onPress={() => {
+          alert("Lista de OS");
+        }}
+      >
+        <Text style={styles.camBtnTxtList}>Consultar OS</Text>
       </RectButton>
     </View>
   );
@@ -47,9 +56,9 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "relative",
-    fontSize: 25,
+    fontSize: 22,
     paddingTop: 130,
-    maxWidth: 250,
+    maxWidth: 270,
     textAlign: "center",
 
     fontWeight: "bold",
@@ -57,16 +66,34 @@ const styles = StyleSheet.create({
 
   camBtn: {
     height: 50,
-    width: "58%",
+    width: "38%",
     backgroundColor: "#9871f5",
     borderRadius: 8,
     padding: 15,
-    top: 35,
+    top: 60,
     alignContent: "center",
     justifyContent: "space-between",
   },
   camBtnTxt: {
     fontWeight: "bold",
     color: "white",
+    fontSize: 15,
+  },
+  camBtnList: {
+    height: 50,
+    justifyContent: "center",
+    width: "38%",
+    backgroundColor: "#9871f5",
+    borderRadius: 8,
+    padding: 15,
+    top: 70,
+    alignContent: "center",
+    justifyContent: "space-between",
+  },
+  camBtnTxtList: {
+    fontWeight: "bold",
+    color: "white",
+    fontSize: 15,
+    textAlign: "center",
   },
 });

@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+
+  const navigation = useNavigation();
+  const handleBack = (data) => {
+    navigation.navigate("registerOS", data);
+  };
 
   useEffect(() => {
     (async () => {
@@ -13,9 +20,12 @@ export default function App() {
     })();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
+
     alert(`Código: ${data}`);
+
+    handleBack(data);
   };
 
   if (hasPermission === null) {

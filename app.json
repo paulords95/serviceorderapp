@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "osmanuapp",
-    "slug": "osmanuapp",
+    "name": "/paulords95/osapp",
+    "slug": "paulords95osapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,6 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": ""
   }
 }
