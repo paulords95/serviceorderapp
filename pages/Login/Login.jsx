@@ -20,7 +20,7 @@ import logo from "../../assets/logo_quim.png";
 
 export default function Landing() {
   const navigation = useNavigation();
-  const [user, setUser] = useState("Paulo");
+  const [user, setUser] = useState();
 
   const handleLogin = (usr) => {
     navigation.navigate("Landing", usr);
@@ -29,6 +29,7 @@ export default function Landing() {
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
     MPLUSRounded1c_500Medium,
+    MPLUSRounded1c_800ExtraBold,
   });
 
   if (!fontsLoaded) {
@@ -43,20 +44,32 @@ export default function Landing() {
         <StatusBar style="auto" />
         <View style={styles.userSelectionView}>
           <Text style={styles.userSelectionTitle}>Selecione o usuário</Text>
-          <Picker
-            selectedValue={user}
-            style={styles.userPicker}
-            onValueChange={(itemValue, itemIndex) => setUser(itemValue)}
-          >
-            <Picker.Item label="Paulo Silva" value="paulo.silva" />
-            <Picker.Item label="Mecânico Um" value="mecanico.um" />
-            <Picker.Item label="Eletricista Um" value="eletricista.um" />
-            <Picker.Item label="Usuário3" value="usuario3" />
-          </Picker>
+          <Text style={styles.pickerWrap}>
+            <Picker
+              selectedValue={user}
+              style={styles.userPicker}
+              onValueChange={(itemValue, itemIndex) => setUser(itemValue)}
+            >
+              <Picker.Item label="Selecionar" value="0" />
+              <Picker.Item label="paulo.silva" value="paulo.silva" />
+              <Picker.Item label="mecanico.um" value="mecanico.um" />
+              <Picker.Item label="eletricista.um" value="eletricista.um" />
+              <Picker.Item label="eletricista.um" value="eletricista.um" />
+            </Picker>
+            <View style={styles.dropdownIcon}>
+              <Text style={styles.dropdownIconText}>V</Text>
+            </View>
+          </Text>
         </View>
         <RectButton
           style={styles.userCntBtn}
-          onPress={() => [handleLogin(user)]}
+          onPress={() => {
+            if (user === "0") {
+              return;
+            } else {
+              handleLogin(user);
+            }
+          }}
         >
           <Text style={styles.userCntBtnTitle}>Conectar</Text>
         </RectButton>
@@ -91,12 +104,25 @@ const styles = StyleSheet.create({
     color: "white",
   },
   userPicker: {
+    flexDirection: "row",
     textAlign: "center",
     backgroundColor: "white",
-    width: 250,
+    width: 200,
   },
   userSelectionView: {
     top: 80,
+  },
+  pickerWrap: {
+    top: 10,
+    backgroundColor: "white",
+    height: 50,
+  },
+  dropdownIcon: {
+    width: 20,
+    height: 35,
+  },
+  dropdownIconText: {
+    fontFamily: "MPLUSRounded1c_800ExtraBold",
   },
   userSelectionTitle: {
     color: "white",
@@ -107,10 +133,10 @@ const styles = StyleSheet.create({
   },
   userCntBtn: {
     backgroundColor: "#9871f5",
-    padding: 15,
+    padding: 10,
     paddingHorizontal: 50,
     borderRadius: 5,
-    top: 130,
+    top: 200,
   },
   userCntBtnTitle: {
     color: "white",

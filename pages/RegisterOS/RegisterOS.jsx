@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
-import { TextInput, Image, StyleSheet, Text, View } from "react-native";
+import {
+  TextInput,
+  Image,
+  StyleSheet,
+  Text,
+  Dimensions,
+  View,
+  KeyboardAvoidingView,
+} from "react-native";
 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo_quim.png";
 
 import readCodeLogo from "../../assets/phone.png";
 
@@ -29,9 +37,9 @@ export default function RegisterOS({ route }) {
   }, [route]);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <Image source={logo} style={styles.logo}></Image>
-      <Text style={styles.title}>REGISTAR NOVA O.S.</Text>
+      <Text style={styles.title}>REGISTRAR NOVA O.S.</Text>
       <View style={styles.readCodWrap}>
         <Text style={styles.inputTitle}>Código do Equipamento</Text>
         <TextInput
@@ -71,14 +79,19 @@ export default function RegisterOS({ route }) {
           value={desc}
         ></TextInput>
       </View>
-    </View>
+      <View style={styles.btnView}>
+        <RectButton style={styles.saveBtn} onPress={() => [alert("Salvo")]}>
+          <Text style={styles.saveBtnTitle}>Gravar</Text>
+        </RectButton>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#003A61",
     alignItems: "center",
     paddingTop: 50,
   },
@@ -86,11 +99,19 @@ const styles = StyleSheet.create({
     position: "absolute",
     paddingTop: 40,
     top: 100,
+    color: "white",
     fontWeight: "bold",
     fontSize: 20,
     alignSelf: "center",
   },
-  logo: {},
+  logo: {
+    flex: 1,
+    position: "absolute",
+    top: 10,
+    left: 0,
+    height: 130,
+    width: 400,
+  },
   readCodWrap: {
     position: "absolute",
     top: 220,
@@ -101,6 +122,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 80,
     top: -25,
+    color: "white",
   },
   newOSInput: {
     height: 55,
@@ -135,6 +157,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     textAlign: "center",
     top: -25,
+    color: "white",
   },
   nameEqInput: {
     height: 55,
@@ -155,6 +178,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     textAlign: "center",
     top: -25,
+    color: "white",
   },
   descInput: {
     height: 200,
@@ -163,5 +187,19 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     textAlign: "center",
     borderRadius: 3,
+  },
+  btnView: {
+    top: Math.round(Dimensions.get("window").height) - 150,
+  },
+  saveBtn: {
+    backgroundColor: "#9871f5",
+    padding: 10,
+    paddingHorizontal: 50,
+    borderRadius: 5,
+  },
+  saveBtnTitle: {
+    color: "white",
+    fontFamily: "MPLUSRounded1c_700Bold",
+    fontSize: 18,
   },
 });

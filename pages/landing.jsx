@@ -17,12 +17,11 @@ import {
 import logo from "../assets/logo_quim.png";
 
 export default function Landing({ route }) {
-  const [user, setUser] = useState(" ");
+  const [user, setUser] = useState("");
 
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
     MPLUSRounded1c_500Medium,
-    MPLUSRounded1c_400Regular,
   });
 
   useEffect(() => {
@@ -56,7 +55,7 @@ export default function Landing({ route }) {
           handleRegisterOS();
         }}
       >
-        <Text style={styles.camBtnTxt}>Registrar Nova OS</Text>
+        <Text style={styles.camBtnTxt}>Registrar Nova O.S.</Text>
       </RectButton>
       <RectButton
         title="Ler código de barras"
@@ -65,7 +64,7 @@ export default function Landing({ route }) {
           alert("Lista de OS");
         }}
       >
-        <Text style={styles.camBtnTxtList}>Consultar OS</Text>
+        <Text style={styles.camBtnTxtList}>Consultar O.S.</Text>
       </RectButton>
       <Text style={styles.userFooter}>Usuário conectado: {user} </Text>
     </View>
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
 
   camBtn: {
     height: 50,
-    width: "38%",
+    width: "40%",
     backgroundColor: "#9871f5",
     borderRadius: 8,
     padding: 15,
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
   camBtnList: {
     height: 50,
     justifyContent: "center",
-    width: "38%",
+    width: "40%",
     backgroundColor: "#9871f5",
     borderRadius: 8,
     padding: 15,
@@ -133,6 +132,6 @@ const styles = StyleSheet.create({
     color: "white",
     position: "absolute",
     bottom: 5,
-    fontFamily: "MPLUSRounded1c_400Regular",
+    fontFamily: "MPLUSRounded1c_500Medium",
   },
 });

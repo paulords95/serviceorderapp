@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { RectButton } from "react-native-gesture-handler";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -27,10 +28,26 @@ export default function App() {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return (
+      <View style={styles.acessDenied}>
+        <Text style={styles.acessDeniedText}>Solictando acesso a câmera</Text>
+      </View>
+    );
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <View style={styles.acessDenied}>
+        <Text style={styles.acessDeniedText}>Acesso a câmera foi negado</Text>
+        <RectButton
+          style={styles.backBtn}
+          onPress={() => {
+            handleBack();
+          }}
+        >
+          <Text style={styles.backBtnTxt}>Voltar</Text>
+        </RectButton>
+      </View>
+    );
   }
 
   return (
@@ -52,3 +69,25 @@ export default function App() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  acessDenied: {
+    flex: 1,
+    backgroundColor: "#003A61",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  acessDeniedText: {
+    color: "white",
+  },
+  backBtn: {
+    backgroundColor: "#9871f5",
+    padding: 10,
+    paddingHorizontal: 50,
+    borderRadius: 5,
+    top: 130,
+  },
+  backBtnTxt: {
+    color: "white",
+  },
+});
