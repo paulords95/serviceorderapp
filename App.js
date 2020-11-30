@@ -4,6 +4,10 @@ import { AppLoading } from "expo";
 
 import AppStack from "./routes/AppStack";
 
+
+//fonts https://directory.now.sh/
+
+
 export default function App() {
 
 
