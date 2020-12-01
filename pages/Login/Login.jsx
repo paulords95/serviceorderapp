@@ -17,6 +17,7 @@ import {
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
 import logo from "../../assets/logo_quim.png";
+import arrow from "../../assets/arrow.png";
 
 export default function Landing() {
   const navigation = useNavigation();
@@ -57,7 +58,7 @@ export default function Landing() {
               <Picker.Item label="eletricista.um" value="eletricista.um" />
             </Picker>
             <View style={styles.dropdownIcon}>
-              <Text style={styles.dropdownIconText}>V</Text>
+              <Image style={styles.dropdownIconImg} source={arrow}></Image>
             </View>
           </Text>
         </View>
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "white",
     width: 200,
+    height: 30,
   },
   userSelectionView: {
     top: 80,
@@ -115,14 +117,17 @@ const styles = StyleSheet.create({
   pickerWrap: {
     top: 10,
     backgroundColor: "white",
-    height: 50,
+    height: 30,
   },
   dropdownIcon: {
-    width: 20,
-    height: 35,
+    width: 18,
+    height: 19,
   },
-  dropdownIconText: {
-    fontFamily: "MPLUSRounded1c_800ExtraBold",
+  dropdownIconImg: {
+    position: "absolute",
+    left: -2,
+    width: 15,
+    height: 10,
   },
   userSelectionTitle: {
     color: "white",
@@ -133,10 +138,10 @@ const styles = StyleSheet.create({
   },
   userCntBtn: {
     backgroundColor: "#9871f5",
-    padding: 10,
-    paddingHorizontal: 50,
+    padding: 8,
+    paddingHorizontal: 40,
     borderRadius: 5,
-    top: 200,
+    top: 180,
   },
   userCntBtnTitle: {
     color: "white",

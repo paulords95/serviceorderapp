@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#003A61"
       },
       "package": "com.paulords95.paulords95osapp"
     },

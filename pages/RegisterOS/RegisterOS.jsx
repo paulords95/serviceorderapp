@@ -127,6 +127,7 @@ const styles = StyleSheet.create({
   newOSInput: {
     height: 55,
     width: 260,
+    color: "white",
     borderColor: "gray",
     borderWidth: 1,
     textAlign: "center",
@@ -164,6 +165,7 @@ const styles = StyleSheet.create({
     width: 305,
     borderColor: "gray",
     borderWidth: 1,
+    color: "white",
     textAlign: "center",
     borderRadius: 3,
   },
@@ -182,6 +184,7 @@ const styles = StyleSheet.create({
   },
   descInput: {
     height: 200,
+    color: "white",
     width: 305,
     borderColor: "gray",
     borderWidth: 1,
