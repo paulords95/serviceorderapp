@@ -1,18 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppLoading } from "expo";
 import { RectButton } from "react-native-gesture-handler";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Image, StyleSheet, Text, View } from "react-native";
+import api from "../../services/api";
+
 import {
-  MPLUSRounded1c_100Thin,
-  MPLUSRounded1c_300Light,
-  MPLUSRounded1c_400Regular,
   MPLUSRounded1c_500Medium,
   MPLUSRounded1c_700Bold,
   MPLUSRounded1c_800ExtraBold,
-  MPLUSRounded1c_900Black,
   useFonts,
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
@@ -22,16 +21,60 @@ import arrow from "../../assets/arrow.png";
 export default function Landing() {
   const navigation = useNavigation();
   const [user, setUser] = useState();
+  const [userValue, setUserValue] = useState();
+  const [userList, setUserlist] = useState();
+  const userListArray = [];
 
   const handleLogin = (usr) => {
     navigation.navigate("Landing", usr);
   };
+
+  const [usersObject, setUsersObject] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/api/allUsers")
+      .then(function (response) {
+        setUserlist(response.data.data.rows);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {});
+  }, []);
+
+  const handleApiCallUsers = () => {
+    let newObj = [];
+    for (let i in userList) {
+      userListArray.push(userList[i]);
+    }
+    for (let user of userListArray) {
+      newObj.push({
+        cod: user[1],
+        name: user[0],
+      });
+      setUsersObject(newObj);
+    }
+  };
+
+  useEffect(() => {
+    handleApiCallUsers();
+  }, [userList]);
 
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
     MPLUSRounded1c_500Medium,
     MPLUSRounded1c_800ExtraBold,
   });
+
+  const storeUser = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("user", jsonValue);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -47,15 +90,26 @@ export default function Landing() {
           <Text style={styles.userSelectionTitle}>Selecione o usuário</Text>
           <Text style={styles.pickerWrap}>
             <Picker
-              selectedValue={user}
+              selectedValue={userValue}
               style={styles.userPicker}
-              onValueChange={(itemValue, itemIndex) => setUser(itemValue)}
+              onValueChange={(itemValue, itemIndex) => {
+                setUserValue(itemValue);
+                for (let user of usersObject) {
+                  if (user.name === itemValue) {
+                    setUser(user);
+                  }
+                }
+              }}
             >
-              <Picker.Item label="Selecionar" value="0" />
-              <Picker.Item label="paulo.silva" value="paulo.silva" />
-              <Picker.Item label="mecanico.um" value="mecanico.um" />
-              <Picker.Item label="eletricista.um" value="eletricista.um" />
-              <Picker.Item label="eletricista.um" value="eletricista.um" />
+              {usersObject.map((user) => {
+                return (
+                  <Picker.Item
+                    label={user.name}
+                    key={user.cod}
+                    value={user.name}
+                  />
+                );
+              })}
             </Picker>
             <View style={styles.dropdownIcon}>
               <Image style={styles.dropdownIconImg} source={arrow}></Image>
@@ -68,6 +122,7 @@ export default function Landing() {
             if (user === "0") {
               return;
             } else {
+              storeUser(user);
               handleLogin(user);
             }
           }}

@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const { Navigator, Screen } = createStackNavigator();
 
-import Landing from "../pages/landing";
+import Landing from "../pages/Landing/landing";
 import CodeScanner from "../componets/barcode/CodeScanner";
 import RegisterOS from "../pages/RegisterOS/RegisterOS";
 import Login from "../pages/Login/Login";

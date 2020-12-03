@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { RectButton } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   TextInput,
   Image,
@@ -35,6 +36,15 @@ export default function RegisterOS({ route }) {
       setCode(result.toString());
     }
   }, [route]);
+
+  const getUser = async (value) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(value);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <KeyboardAvoidingView style={styles.container}>
@@ -80,7 +90,13 @@ export default function RegisterOS({ route }) {
         ></TextInput>
       </View>
       <View style={styles.btnView}>
-        <RectButton style={styles.saveBtn} onPress={() => [alert("Salvo")]}>
+        <RectButton
+          style={styles.saveBtn}
+          onPress={async () => {
+            let user = await getUser("user");
+            console.log(user);
+          }}
+        >
           <Text style={styles.saveBtnTitle}>Gravar</Text>
         </RectButton>
       </View>

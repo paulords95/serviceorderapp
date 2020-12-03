@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RectButton } from "react-native-gesture-handler";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import {
@@ -14,31 +15,41 @@ import {
   useFonts,
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
-import logo from "../assets/logo_quim.png";
+import logo from "../../assets/logo_quim.png";
 
-export default function Landing({ route }) {
-  const [user, setUser] = useState("");
+export default function Landing() {
+  const [user, setUser] = useState({
+    cod: "",
+    name: "",
+  });
 
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
     MPLUSRounded1c_500Medium,
   });
 
-  useEffect(() => {
-    let loggedUser = route.params;
-    if (loggedUser !== undefined) {
-      let result = "";
-      for (let i in loggedUser) {
-        result += loggedUser[i];
-      }
-      setUser(result.toString());
+  const getUser = async (value) => {
+    try {
+      const jsonValue = await AsyncStorage.getItem(value);
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log(e);
     }
+  };
+
+  const setLoggedUser = async () => {
+    let usr = await getUser("user");
+    setUser(usr);
+  };
+
+  useEffect(() => {
+    setLoggedUser();
   }, []);
 
   const navigation = useNavigation();
 
-  const handleRegisterOS = () => {
-    navigation.navigate("registerOS");
+  const handleRegisterOS = (user) => {
+    navigation.navigate("registerOS", user);
   };
 
   return (
@@ -66,7 +77,7 @@ export default function Landing({ route }) {
       >
         <Text style={styles.camBtnTxtList}>Consultar O.S.</Text>
       </RectButton>
-      <Text style={styles.userFooter}>Usuário conectado: {user} </Text>
+      <Text style={styles.userFooter}>Usuário conectado: {user.name} </Text>
     </View>
   );
 }
