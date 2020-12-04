@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import logo from "../../assets/logo2.png";
 import readCodeLogo from "../../assets/phone.png";
@@ -14,10 +15,15 @@ import { Picker } from "@react-native-picker/picker";
 const RegisterOS = ({ route }) => {
   const [code, setCode] = useState(" ");
   const [enableShift, setEnableShift] = useState(false);
-  const navigation = useNavigation();
+  const [user, setUser] = useState({
+    cod: "",
+    name: "",
+  });
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [priorityValue, setPriorityValue] = useState();
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     let dataCode = route.params;
@@ -33,6 +39,20 @@ const RegisterOS = ({ route }) => {
   const handleScanner = () => {
     navigation.navigate("scanner");
   };
+
+  const getUser = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("user");
+      const result = JSON.parse(jsonValue);
+      setUser(result);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -105,6 +125,25 @@ const RegisterOS = ({ route }) => {
             }}
           ></TextInput>
         </View>
+
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            paddingTop: 20,
+          }}
+        >
+          <View style={styles.btnView}>
+            <RectButton
+              style={styles.saveBtn}
+              onPress={() => {
+                console.log(user);
+              }}
+            >
+              <Text style={styles.saveBtnTitle}>REGISTRAR</Text>
+            </RectButton>
+          </View>
+        </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -119,6 +158,7 @@ const styles = StyleSheet.create({
   },
   logoView: {
     width: "100%",
+    top: 20,
     alignItems: "center",
   },
   logo: {
@@ -126,7 +166,7 @@ const styles = StyleSheet.create({
     width: 292,
   },
   title: {
-    paddingTop: 40,
+    paddingVertical: 40,
     color: "#003A61",
     fontWeight: "bold",
     fontSize: 20,
@@ -138,8 +178,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     left: 50,
     width: "80%",
-    height: 40,
-    bottom: 10,
+    height: 45,
+    bottom: 20,
     backgroundColor: "white",
     borderRadius: 5,
     borderWidth: 1,
@@ -152,21 +192,10 @@ const styles = StyleSheet.create({
   },
   priorityPicker: {
     top: 0,
-    height: 40,
+    height: 45,
     width: "100%",
     borderRadius: 5,
     left: -34,
-  },
-  dropdownIcon: {
-    position: "relative",
-    width: 18,
-    height: 19,
-    top: 16,
-    left: -30,
-  },
-  dropdownIconImg: {
-    width: 15,
-    height: 10,
   },
 
   readCodWrap: {
@@ -220,7 +249,7 @@ const styles = StyleSheet.create({
   nameEqInput: {
     height: 45,
     left: -35,
-    width: 210,
+    width: 300,
   },
   descWrap: {
     backgroundColor: "white",
@@ -244,8 +273,24 @@ const styles = StyleSheet.create({
     top: 5,
     height: 140,
     alignSelf: "flex-start",
-    textAlign: "left",
+    textAlign: "center",
     textAlignVertical: "top",
+  },
+  btnView: {
+    alignItems: "center",
+    width: "50%",
+  },
+  saveBtn: {
+    backgroundColor: "#003A61",
+    padding: 10,
+    borderRadius: 5,
+    textAlign: "center",
+  },
+  saveBtnTitle: {
+    textAlign: "center",
+    color: "white",
+    fontFamily: "MPLUSRounded1c_700Bold",
+    fontSize: 18,
   },
 });
 
