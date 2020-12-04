@@ -6,9 +6,8 @@ import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo2.png";
 import readCodeLogo from "../../assets/phone.png";
-import arrow from "../../assets/arrow.png";
 
 import { Picker } from "@react-native-picker/picker";
 
@@ -120,10 +119,11 @@ const styles = StyleSheet.create({
   },
   logoView: {
     width: "100%",
+    alignItems: "center",
   },
   logo: {
-    left: "22%",
-    top: "25%",
+    height: 90,
+    width: 292,
   },
   title: {
     paddingTop: 40,
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   nameEqInput: {
     height: 45,
-    left: -30,
+    left: -35,
     width: 210,
   },
   descWrap: {
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
   descInput: {
     left: -35,
     width: "98%",
-    top: 3,
+    top: 5,
     height: 140,
     alignSelf: "flex-start",
     textAlign: "left",
