@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RectButton } from "react-native-gesture-handler";
@@ -27,7 +27,7 @@ const RegisterOS = ({ route }) => {
   const [postData, setPostData] = useState({
     codEqp: "",
     desEqp: "",
-    tipOsv: "",
+    tipOsv: 1,
   });
 
   const navigation = useNavigation();
@@ -62,7 +62,11 @@ const RegisterOS = ({ route }) => {
   }, []);
 
   const handlePostData = () => {
-    const date = new Date().toLocaleString("pt-BR").replaceAll("/", "-");
+    const date = new Date()
+      .toLocaleString("pt-BR")
+      .replace(/\//g, "-")
+      .substr(0, 10)
+      .trim();
 
     if (isNaN(user.cod) || user.cod === "") {
       alert("ERRO: Código do usuário não informado");
@@ -99,14 +103,17 @@ const RegisterOS = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView style={{ width: "100%" }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ alignItems: "center" }}
+        style={{ width: "100%" }}
+      >
         <View style={styles.logoView}>
           <Image source={logo} style={styles.logo}></Image>
         </View>
         <Text style={styles.title}>REGISTRAR NOVA O.S.</Text>
         <TextInput style={styles.input}></TextInput>
         <View style={styles.pickerWrap}>
-          <Text style={styles.pickerTitle}>Tipo: </Text>
+          <Text style={styles.pickerTitle}>Tipo</Text>
           <Picker
             selectedValue={priorityValue}
             style={styles.priorityPicker}
@@ -127,10 +134,11 @@ const RegisterOS = ({ route }) => {
         </View>
 
         <View style={styles.readCodWrap}>
-          <Text style={styles.inputTitle}>Cód.: </Text>
+          <Text style={styles.inputTitle}>Código</Text>
           <TextInput
             style={styles.newOSInput}
             value={code.toString()}
+            autoCapitalize={"characters"}
             onChangeText={(code) => {
               setCode(code);
               setPostData({
@@ -159,7 +167,7 @@ const RegisterOS = ({ route }) => {
         </View>
 
         <View style={styles.eqNameWrap}>
-          <Text style={styles.eqTitle}>Nome: </Text>
+          <Text style={styles.eqTitle}>Nome</Text>
           <TextInput
             style={styles.nameEqInput}
             onChangeText={(text) => {
@@ -170,7 +178,7 @@ const RegisterOS = ({ route }) => {
         </View>
 
         <View style={styles.descWrap}>
-          <Text style={styles.descTitle}>Desc: </Text>
+          <Text style={styles.descTitle}>Descrição</Text>
           <TextInput
             multiline={true}
             numberOfLines={10}
@@ -220,10 +228,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#e8f6fc",
     paddingTop: 10,
+    height: Dimensions.get("screen").height,
   },
   logoView: {
     width: "100%",
-    top: 20,
     alignItems: "center",
   },
   logo: {
@@ -231,36 +239,37 @@ const styles = StyleSheet.create({
     width: 292,
   },
   title: {
-    paddingVertical: 40,
+    paddingVertical: 35,
     color: "#003A61",
     fontWeight: "bold",
     fontSize: 20,
     alignSelf: "center",
+    marginBottom: 10,
   },
 
   pickerWrap: {
     height: 45,
     flexDirection: "row",
-    left: 50,
     width: "80%",
     height: 45,
-    bottom: 20,
+    bottom: 40,
     backgroundColor: "white",
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#C9C9C9",
+    flexDirection: "column",
   },
   pickerTitle: {
     color: "#003A61",
-    left: -35,
-    paddingTop: 10,
+    top: -18,
+    fontWeight: "bold",
   },
   priorityPicker: {
-    top: 0,
+    top: -20,
     height: 45,
     width: "100%",
     borderRadius: 5,
-    left: -34,
+    left: 0,
   },
 
   readCodWrap: {
@@ -268,24 +277,24 @@ const styles = StyleSheet.create({
     height: 45,
     width: "80%",
     borderRadius: 5,
-    flexDirection: "row",
-    left: 50,
+    bottom: 10,
     borderWidth: 1,
     borderColor: "#C9C9C9",
   },
   inputTitle: {
     color: "#003A61",
-    left: -36,
-    paddingTop: 10,
+    fontWeight: "bold",
+    top: -20,
   },
   newOSInput: {
     height: 45,
-    left: -30,
-    width: 260,
+    left: 5,
+    width: "100%",
+    bottom: 20,
   },
   readCodeBtn: {
     position: "absolute",
-    right: 5,
+    right: 3,
     height: 45,
     borderRadius: 5,
     alignContent: "center",
@@ -300,21 +309,20 @@ const styles = StyleSheet.create({
     height: 45,
     width: "80%",
     borderRadius: 5,
-    flexDirection: "row",
-    left: 50,
     marginTop: 20,
     borderWidth: 1,
     borderColor: "#C9C9C9",
   },
   eqTitle: {
+    fontWeight: "bold",
     color: "#003A61",
-    left: -45,
-    top: 10,
+    top: -20,
   },
   nameEqInput: {
     height: 45,
-    left: -35,
-    width: 300,
+    width: "95%",
+    top: -20,
+    left: 8,
   },
   descWrap: {
     backgroundColor: "white",
@@ -322,28 +330,28 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 5,
     flexDirection: "row",
-    left: 50,
-    marginTop: 20,
+    marginTop: 30,
     borderWidth: 1,
     borderColor: "#C9C9C9",
+    alignItems: "center",
   },
   descTitle: {
     color: "#003A61",
-    left: -40,
-    top: 50,
+    top: -82,
+    fontWeight: "bold",
   },
   descInput: {
     left: -35,
-    width: "98%",
-    top: 5,
+    width: "95%",
+    top: 15,
     height: 140,
     alignSelf: "flex-start",
-    textAlign: "center",
     textAlignVertical: "top",
   },
   btnView: {
     alignItems: "center",
     width: "50%",
+    top: -10,
   },
   saveBtn: {
     backgroundColor: "#003A61",

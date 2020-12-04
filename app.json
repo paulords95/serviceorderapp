@@ -6,9 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#003A61"
+      "backgroundColor": "#E8F6FC"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#003A61"
+        "backgroundColor": "#E8F6FC"
       },
       "package": "com.paulords95.paulords95osapp"
     },
