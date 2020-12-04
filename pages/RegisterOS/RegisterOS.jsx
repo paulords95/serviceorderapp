@@ -10,6 +10,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import logo from "../../assets/logo2.png";
 import readCodeLogo from "../../assets/phone.png";
 
+import api from "../../services/api";
+
 import { Picker } from "@react-native-picker/picker";
 
 const RegisterOS = ({ route }) => {
@@ -22,6 +24,11 @@ const RegisterOS = ({ route }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [priorityValue, setPriorityValue] = useState();
+  const [postData, setPostData] = useState({
+    codEqp: "",
+    desEqp: "",
+    tipOsv: "",
+  });
 
   const navigation = useNavigation();
 
@@ -54,6 +61,42 @@ const RegisterOS = ({ route }) => {
     getUser();
   }, []);
 
+  const handlePostData = () => {
+    const date = new Date().toLocaleString("pt-BR").replaceAll("/", "-");
+
+    if (isNaN(user.cod) || user.cod === "") {
+      alert("ERRO: Código do usuário não informado");
+      return;
+    }
+
+    if (postData.codEqp.length < 1) {
+      alert("Código do equipamento não informado");
+      return;
+    }
+
+    if (postData.desEqp.length < 1) {
+      alert("Descrição da anomalia não informada");
+      return;
+    }
+
+    if (isNaN(postData.tipOsv) || postData.tipOsv === "") {
+      alert("Tipo da O.S não informado");
+      return;
+    }
+
+    console.log(postData);
+    api
+      .post(
+        `/api/newos/${user.cod}/${date}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}`
+      )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView style={{ width: "100%" }}>
@@ -69,6 +112,11 @@ const RegisterOS = ({ route }) => {
             style={styles.priorityPicker}
             onValueChange={(itemValue, itemIndex) => {
               setPriorityValue(itemValue);
+              setPostData({
+                codEqp: postData.codEqp,
+                desEqp: postData.desEqp,
+                tipOsv: itemValue,
+              });
             }}
           >
             <Picker.Item label="Normal" value="1" />
@@ -83,6 +131,14 @@ const RegisterOS = ({ route }) => {
           <TextInput
             style={styles.newOSInput}
             value={code.toString()}
+            onChangeText={(code) => {
+              setCode(code);
+              setPostData({
+                codEqp: code,
+                desEqp: postData.desEqp,
+                tipOsv: postData.tipOsv,
+              });
+            }}
           ></TextInput>
           <RectButton
             onPress={() => {
@@ -106,7 +162,9 @@ const RegisterOS = ({ route }) => {
           <Text style={styles.eqTitle}>Nome: </Text>
           <TextInput
             style={styles.nameEqInput}
-            onChangeText={(text) => setName(text)}
+            onChangeText={(text) => {
+              setName(text);
+            }}
             value={name}
           ></TextInput>
         </View>
@@ -118,7 +176,14 @@ const RegisterOS = ({ route }) => {
             numberOfLines={10}
             autoCapitalize={"sentences"}
             style={styles.descInput}
-            onChangeText={(text) => setDesc(text)}
+            onChangeText={(text) => {
+              setDesc(text);
+              setPostData({
+                codEqp: postData.codEqp,
+                desEqp: text,
+                tipOsv: postData.tipOsv,
+              });
+            }}
             value={desc}
             onFocus={() => {
               setEnableShift(true);
@@ -137,7 +202,7 @@ const RegisterOS = ({ route }) => {
             <RectButton
               style={styles.saveBtn}
               onPress={() => {
-                console.log(user);
+                handlePostData();
               }}
             >
               <Text style={styles.saveBtnTitle}>REGISTRAR</Text>
