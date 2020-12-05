@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#e8f6fc",
     paddingTop: 10,
     width: "100%",
-    height: Dimensions.get("screen").height,
+    height: Dimensions.get("screen").height - 50,
   },
   logoView: {
     width: "100%",
