@@ -15,7 +15,7 @@ import {
   useFonts,
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
-import logo from "../../assets/logo_quim.png";
+import logo from "../../assets/logo2.png";
 
 export default function Landing() {
   const [user, setUser] = useState({
@@ -54,7 +54,9 @@ export default function Landing() {
 
   return (
     <View style={styles.container}>
-      <Image source={logo} style={styles.logo}></Image>
+      <View style={styles.logoView}>
+        <Image source={logo} style={styles.logo}></Image>
+      </View>
       <Text style={styles.title}>
         REGISTRO DE ORDENS DE SERVIÇO DE MANUTENÇÃO
       </Text>
@@ -66,7 +68,7 @@ export default function Landing() {
           handleRegisterOS();
         }}
       >
-        <Text style={styles.camBtnTxt}>Registrar Nova O.S.</Text>
+        <Text style={styles.camBtnTxt}>REGISTRAR NOVA O.S.</Text>
       </RectButton>
       <RectButton
         title="Ler código de barras"
@@ -75,7 +77,7 @@ export default function Landing() {
           alert("Lista de OS");
         }}
       >
-        <Text style={styles.camBtnTxtList}>Consultar O.S.</Text>
+        <Text style={styles.camBtnTxtList}>CONSULTAR O.S.</Text>
       </RectButton>
       <Text style={styles.userFooter}>Usuário conectado: {user.name} </Text>
     </View>
@@ -85,53 +87,55 @@ export default function Landing() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#003A61",
+    backgroundColor: "#e8f6fc",
     alignItems: "center",
-    paddingTop: 80,
+    paddingTop: 50,
+  },
+  logoView: {
+    width: "100%",
+    alignItems: "center",
   },
   logo: {
-    flex: 1,
-    position: "absolute",
-    top: 50,
-    left: -10,
-    height: 150,
-    width: 420,
+    height: 90,
+    width: 292,
   },
   title: {
     position: "relative",
     fontSize: 20,
-    paddingTop: 130,
+    paddingTop: 30,
     maxWidth: 270,
     textAlign: "center",
-    color: "white",
+    color: "#003A61",
     fontFamily: "MPLUSRounded1c_700Bold",
   },
 
   camBtn: {
     height: 50,
-    width: "40%",
+    width: "60%",
     backgroundColor: "#9871f5",
     borderRadius: 8,
-    padding: 15,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    marginHorizontal: 30,
     top: 60,
-    alignContent: "center",
-    justifyContent: "space-between",
+    textAlign: "center",
   },
   camBtnTxt: {
     fontWeight: "bold",
     color: "white",
+    textAlign: "center",
     fontSize: 15,
   },
   camBtnList: {
     height: 50,
-    justifyContent: "center",
-    width: "40%",
+    width: "60%",
     backgroundColor: "#9871f5",
     borderRadius: 8,
-    padding: 15,
-    top: 70,
-    alignContent: "center",
-    justifyContent: "space-between",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    marginHorizontal: 30,
+    top: 80,
+    textAlign: "center",
   },
   camBtnTxtList: {
     fontWeight: "bold",
@@ -140,9 +144,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   userFooter: {
-    color: "white",
+    color: "#003A61",
     position: "absolute",
-    bottom: 5,
+    bottom: 30,
     fontFamily: "MPLUSRounded1c_500Medium",
   },
 });

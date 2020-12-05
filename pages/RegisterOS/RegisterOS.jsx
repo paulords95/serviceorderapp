@@ -6,6 +6,7 @@ import { RectButton } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 import logo from "../../assets/logo2.png";
 import readCodeLogo from "../../assets/phone.png";
@@ -13,6 +14,7 @@ import readCodeLogo from "../../assets/phone.png";
 import api from "../../services/api";
 
 import { Picker } from "@react-native-picker/picker";
+import { eq } from "react-native-reanimated";
 
 const RegisterOS = ({ route }) => {
   const [code, setCode] = useState(" ");
@@ -29,8 +31,61 @@ const RegisterOS = ({ route }) => {
     desEqp: "",
     tipOsv: 1,
   });
+  const [newAlert, setNewAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("Erro!");
+  const [eqpList, setEqpList] = useState();
+  const [newEqpList, setNewEqpList] = useState([]);
+  const [eqp, setEqp] = useState({
+    cod: "",
+    name: "",
+  });
+  const [completed, setCompleted] = useState(false);
+
+  const eqpArray = [];
 
   const navigation = useNavigation();
+
+  const showAlert = () => {
+    setNewAlert(true);
+  };
+
+  const hideAlert = () => {
+    setNewAlert(false);
+  };
+
+  const handleApiPopulateName = () => {
+    //<----------------
+
+    const newArray = [];
+    api
+      .get("/api/allEqps")
+      .then(function (response) {
+        setEqpList(response.data.data.rows);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {});
+
+    for (let eqp in eqpList) {
+      eqpArray.push(eqpList[eqp]);
+    }
+
+    for (let user of eqpArray) {
+      newArray.push({
+        cod: user[0],
+        name: user[1],
+      });
+
+      setNewEqpList(newArray);
+    }
+    for (let i of newArray) {
+      if (i.cod.trim() == code.trim()) {
+        setCode(i.cod.toString());
+        setName(i.name.toString());
+      }
+    }
+  };
 
   useEffect(() => {
     let dataCode = route.params;
@@ -39,9 +94,19 @@ const RegisterOS = ({ route }) => {
       for (let i in dataCode) {
         result += dataCode[i];
       }
-      setCode(result.toString());
+      setCode(result);
+      setPostData({
+        codEqp: result,
+        desEqp: postData.desEqp,
+        tipOsv: postData.tipOsv,
+      });
     }
   }, [route]);
+
+  useEffect(() => {
+    setCode(code);
+    handleApiPopulateName();
+  }, [code]);
 
   const handleScanner = () => {
     navigation.navigate("scanner");
@@ -57,9 +122,30 @@ const RegisterOS = ({ route }) => {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
+  const RenderAlert = () => {
+    return (
+      <AwesomeAlert
+        show={newAlert}
+        showProgress={false}
+        title="Aviso!"
+        message={alertMessage}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showConfirmButton={true}
+        confirmText="  Ok  "
+        confirmButtonColor="#003A61"
+        onCancelPressed={() => {
+          hideAlert();
+        }}
+        onConfirmPressed={() => {
+          hideAlert();
+          if (completed) {
+            navigation.navigate("Landing");
+          }
+        }}
+      />
+    );
+  };
 
   const handlePostData = () => {
     const date = new Date()
@@ -69,37 +155,51 @@ const RegisterOS = ({ route }) => {
       .trim();
 
     if (isNaN(user.cod) || user.cod === "") {
-      alert("ERRO: Código do usuário não informado");
+      setAlertMessage("ERRO: Código do usuário não informado");
+      showAlert();
       return;
     }
 
-    if (postData.codEqp.length < 1) {
-      alert("Código do equipamento não informado");
+    if (
+      postData.codEqp === "" ||
+      postData.codEqp === null ||
+      postData.codEqp === undefined
+    ) {
+      setAlertMessage("Código do equipamento não informado!");
+      showAlert();
       return;
     }
 
     if (postData.desEqp.length < 1) {
-      alert("Descrição da anomalia não informada");
+      setAlertMessage("Descrição da anomalia não informada!");
+      showAlert();
       return;
     }
 
     if (isNaN(postData.tipOsv) || postData.tipOsv === "") {
-      alert("Tipo da O.S não informado");
+      setAlertMessage("Tipo da O.S não informado!");
+      showAlert();
       return;
     }
 
-    console.log(postData);
     api
       .post(
         `/api/newos/${user.cod}/${date}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}`
       )
       .then(function (response) {
+        setAlertMessage("O.S Gravada com sucesso!");
+        setCompleted(true);
+        showAlert();
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -137,12 +237,12 @@ const RegisterOS = ({ route }) => {
           <Text style={styles.inputTitle}>Código</Text>
           <TextInput
             style={styles.newOSInput}
-            value={code.toString()}
+            value={code}
             autoCapitalize={"characters"}
-            onChangeText={(code) => {
-              setCode(code);
+            onChangeText={(text) => {
+              setCode(text);
               setPostData({
-                codEqp: code,
+                codEqp: text,
                 desEqp: postData.desEqp,
                 tipOsv: postData.tipOsv,
               });
@@ -217,6 +317,7 @@ const RegisterOS = ({ route }) => {
             </RectButton>
           </View>
         </View>
+        {<RenderAlert />}
       </KeyboardAwareScrollView>
     </SafeAreaView>
   );
@@ -261,7 +362,7 @@ const styles = StyleSheet.create({
   },
   pickerTitle: {
     color: "#003A61",
-    top: -18,
+    top: -20,
     fontWeight: "bold",
   },
   priorityPicker: {

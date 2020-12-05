@@ -217,10 +217,10 @@ const styles = StyleSheet.create({
   },
   userCntBtn: {
     backgroundColor: "#003A61",
-    padding: 8,
+    paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 5,
-    top: 180,
+    top: 160,
   },
   userCntBtnTitle: {
     color: "white",
