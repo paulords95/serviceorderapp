@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { AppLoading } from "expo";
-import {
-  Button,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  BackHandler,
-} from "react-native";
+import { StyleSheet, Text, View, BackHandler } from "react-native";
 import {
   MPLUSRounded1c_500Medium,
   MPLUSRounded1c_700Bold,
   useFonts,
 } from "@expo-google-fonts/m-plus-rounded-1c";
-import { RectButton } from "react-native-gesture-handler";
 
-export default function CheckConnection() {
+export default function ConnectionError(props) {
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
     MPLUSRounded1c_500Medium,
   });
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -32,14 +25,7 @@ export default function CheckConnection() {
           Verifique se você está conectado a rede sem fio Quimtia e tente
           novamente. Se o erro persistir, entre em contato com a equipe de TI.
         </Text>
-        <RectButton
-          style={styles.exitBtn}
-          onPress={() => {
-            BackHandler.exitApp();
-          }}
-        >
-          <Text style={styles.exitBtnTxt}>SAIR</Text>
-        </RectButton>
+        {props.tryAgain}
       </View>
     );
   }
@@ -50,7 +36,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#003A61",
     alignItems: "center",
-    paddingTop: 100,
+    justifyContent: "center",
+    paddingBottom: 70,
   },
 
   errMsg: {

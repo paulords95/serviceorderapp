@@ -24,8 +24,6 @@ import {
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
 import logo from "../../assets/logo2.png";
-import arrow from "../../assets/arrow.png";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Landing() {
   const navigation = useNavigation();
