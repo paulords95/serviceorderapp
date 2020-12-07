@@ -127,7 +127,7 @@ const RegisterOS = ({ route }) => {
       <AwesomeAlert
         show={newAlert}
         showProgress={false}
-        title="Aviso!"
+        title="Aviso"
         message={alertMessage}
         closeOnTouchOutside={true}
         closeOnHardwareBackPress={false}
@@ -148,12 +148,6 @@ const RegisterOS = ({ route }) => {
   };
 
   const handlePostData = () => {
-    const date = new Date()
-      .toLocaleString("pt-BR")
-      .replace(/\//g, "-")
-      .substr(0, 10)
-      .trim();
-
     if (isNaN(user.cod) || user.cod === "") {
       setAlertMessage("ERRO: Código do usuário não informado");
       showAlert();
@@ -184,13 +178,12 @@ const RegisterOS = ({ route }) => {
 
     api
       .post(
-        `/api/newos/${user.cod}/${date}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}`
+        `/api/newos/${user.cod}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}`
       )
       .then(function (response) {
         setAlertMessage("O.S Gravada com sucesso!");
         setCompleted(true);
         showAlert();
-        console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -332,12 +325,14 @@ const styles = StyleSheet.create({
     height: Dimensions.get("screen").height,
   },
   logoView: {
-    width: "100%",
+    width: "90%",
+    top: 30,
     alignItems: "center",
   },
   logo: {
-    height: 90,
-    width: 292,
+    height: 60,
+    width: 322,
+    marginBottom: 50,
   },
   title: {
     paddingVertical: 35,

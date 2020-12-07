@@ -7,7 +7,7 @@ const { Navigator, Screen } = createStackNavigator();
 import Landing from "../pages/Landing/landing";
 import CodeScanner from "../componets/barcode/CodeScanner";
 import RegisterOS from "../pages/RegisterOS/RegisterOS";
-import HandleConnection from "../routes/HandleConnection";
+import HandleConnection from "../componets/HandleConnection";
 
 const AppStack = () => {
   return (

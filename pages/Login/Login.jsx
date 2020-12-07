@@ -98,7 +98,7 @@ export default function Landing() {
           <Text
             style={({ fontFamily: "MPLUSRounded1c_700Bold" }, styles.title)}
           >
-            QUIMTIA MANUTENÇÃO
+            MANUTENÇÃO
           </Text>
           <StatusBar style="auto" />
 
@@ -158,13 +158,14 @@ const styles = StyleSheet.create({
     height: Dimensions.get("screen").height - 50,
   },
   logoView: {
-    width: "100%",
-    top: 40,
+    width: "90%",
+    top: 80,
     alignItems: "center",
   },
   logo: {
-    height: 90,
-    width: 292,
+    height: 60,
+    width: 322,
+    marginBottom: 70,
   },
   title: {
     position: "relative",

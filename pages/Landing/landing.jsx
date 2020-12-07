@@ -92,12 +92,14 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   logoView: {
-    width: "100%",
+    width: "90%",
+    top: 30,
     alignItems: "center",
   },
   logo: {
-    height: 90,
-    width: 292,
+    height: 60,
+    width: 322,
+    marginBottom: 70,
   },
   title: {
     position: "relative",
