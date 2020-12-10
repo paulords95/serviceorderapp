@@ -74,7 +74,7 @@ export default function Landing() {
         title="Ler código de barras"
         style={styles.camBtnList}
         onPress={() => {
-          alert("Lista de OS");
+          navigation.navigate("checkOS");
         }}
       >
         <Text style={styles.camBtnTxtList}>CONSULTAR O.S.</Text>

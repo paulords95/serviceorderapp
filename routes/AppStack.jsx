@@ -9,6 +9,7 @@ import Landing from "../pages/Landing/landing";
 import CodeScanner from "../componets/barcode/CodeScanner";
 import RegisterOS from "../pages/RegisterOS/RegisterOS";
 import HandleConnection from "../componets/HandleConnection";
+import CheckServiceOrder from "../pages/CheckServiceOrder/CheckServiceOrder";
 
 const AppStack = () => {
   return (
@@ -16,6 +17,7 @@ const AppStack = () => {
       <Navigator screenOptions={{ headerShown: false }}>
         <Screen name="Login" component={HandleConnection} />
         <Screen name="Landing" component={Landing} />
+        <Screen name="checkOS" component={CheckServiceOrder} />
         <Screen name="registerOS" component={RegisterOS} />
         <Screen name="scanner" component={CodeScanner} />
       </Navigator>
