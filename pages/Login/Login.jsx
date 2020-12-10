@@ -38,11 +38,24 @@ export default function Landing() {
 
   const [usersObject, setUsersObject] = useState([]);
 
+  const getUser = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("user");
+      const result = JSON.parse(jsonValue);
+      if (result != null) {
+        navigation.navigate("Landing", result.name);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     api
       .get("/api/allUsers")
       .then(function (response) {
         setUserlist(response.data.data.rows);
+        getUser();
       })
       .catch(function (error) {
         console.log(error);
@@ -187,22 +200,23 @@ const styles = StyleSheet.create({
     height: 45,
     top: 100,
     flexDirection: "row",
-    width: "70%",
+    width: "60%",
     height: 45,
     backgroundColor: "white",
     borderRadius: 5,
     borderWidth: 1,
     borderColor: "#C9C9C9",
+    justifyContent: "center",
   },
   pickerTitle: {
     top: -25,
     color: "#003A61",
     fontWeight: "bold",
-    left: 75,
+    left: 110,
   },
   userPicker: {
     top: 0,
-    left: -120,
+    left: -60,
     height: 45,
     width: "100%",
     borderRadius: 5,

@@ -79,7 +79,25 @@ export default function Landing() {
       >
         <Text style={styles.camBtnTxtList}>CONSULTAR O.S.</Text>
       </RectButton>
-      <Text style={styles.userFooter}>Usuário conectado: {user.name} </Text>
+      <View style={styles.footer}>
+        <Text style={styles.userFooter}>
+          Usuário conectado: <Text style={styles.loggedUser}>{user.name}</Text>
+        </Text>
+        <RectButton
+          title="Desconectar"
+          style={styles.dscntBtn}
+          onPress={async () => {
+            try {
+              await AsyncStorage.removeItem("user");
+            } catch (e) {
+              console.log(e);
+            }
+            navigation.navigate("Login");
+          }}
+        >
+          <Text style={styles.dscntBtnTxt}>desconectar</Text>
+        </RectButton>
+      </View>
     </View>
   );
 }
@@ -145,10 +163,27 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
   },
-  userFooter: {
-    color: "#003A61",
+  footer: {
+    justifyContent: "center",
     position: "absolute",
-    bottom: 30,
+    bottom: 25,
+    alignItems: "center",
+  },
+  userFooter: {
+    color: "black",
+    fontFamily: "MPLUSRounded1c_500Medium",
+  },
+  loggedUser: {
+    color: "#003A61",
+  },
+  dscntBtn: {
+    top: 8,
+    backgroundColor: "#606060",
+    padding: 3,
+    borderRadius: 3,
+  },
+  dscntBtnTxt: {
+    color: "white",
     fontFamily: "MPLUSRounded1c_500Medium",
   },
 });

@@ -18,7 +18,7 @@ const HandleConnection = () => {
         console.log(error);
       })
       .then(function () {});
-  });
+  }, []);
 
   return CheckCon ? <Login /> : <ConnectionError />;
 };
