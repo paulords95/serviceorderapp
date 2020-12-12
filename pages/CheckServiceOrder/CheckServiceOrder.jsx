@@ -10,6 +10,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import {
   MPLUSRounded1c_500Medium,
   MPLUSRounded1c_700Bold,
+  MPLUSRounded1c_400Regular,
   useFonts,
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
@@ -28,10 +29,11 @@ const CheckServiceOrder = ({ route }) => {
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
     MPLUSRounded1c_500Medium,
+    MPLUSRounded1c_400Regular,
   });
 
   const handleScanner = () => {
-    navigation.navigate("scanner");
+    navigation.navigate("scanner", "check");
   };
 
   useEffect(() => {
@@ -96,6 +98,35 @@ const CheckServiceOrder = ({ route }) => {
               </View>
             </RectButton>
           </View>
+          <View style={styles.containerWrap}>
+            <View style={styles.eqpInfoWrap}>
+              <Text style={styles.infoTitle}>Nome</Text>
+              <Text style={styles.dataText}>name placeholder</Text>
+            </View>
+            <View style={styles.eqpInfoData}>
+              <Text style={styles.infoTitle}>Data de registro</Text>
+              <Text style={styles.dataText}>20/12/2020</Text>
+            </View>
+          </View>
+          <View style={styles.descriptionWrap}>
+            <Text style={styles.eqpDescription}>Descrição</Text>
+            <Text style={styles.eqpDescriptionText}>
+              PlaceholderPlaceholderPlaceholderPlaceholderPlaceholderPlaceholder
+            </Text>
+          </View>
+          <View
+            style={{
+              marginTop: 40,
+              borderBottomColor: "black",
+              borderBottomWidth: 0.3,
+              alignSelf: "stretch",
+            }}
+          />
+          <Text style={styles.listTitle}>Ordens de serviço anteriores</Text>
+          <View style={styles.listWrap}>
+            <Text style={styles.listTitle1}>Descrição</Text>
+            <Text style={styles.listTitle2}>Data</Text>
+          </View>
         </KeyboardAwareScrollView>
       </SafeAreaView>
     );
@@ -159,6 +190,51 @@ const styles = StyleSheet.create({
     width: 35,
     top: 5,
     height: 35,
+  },
+  containerWrap: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  infoTitle: {
+    fontFamily: "MPLUSRounded1c_700Bold",
+    paddingHorizontal: 30,
+    textAlign: "center",
+  },
+  dataText: {
+    fontFamily: "MPLUSRounded1c_400Regular",
+    textAlign: "center",
+    marginHorizontal: 20,
+  },
+  descriptionWrap: {
+    marginTop: 40,
+  },
+  eqpDescription: {
+    fontFamily: "MPLUSRounded1c_700Bold",
+
+    textAlign: "center",
+  },
+  eqpDescriptionText: {
+    marginTop: 0,
+    maxWidth: 250,
+    textAlign: "center",
+    fontFamily: "MPLUSRounded1c_400Regular",
+  },
+  listTitle: {
+    marginTop: 10,
+    marginBottom: 10,
+    fontFamily: "MPLUSRounded1c_700Bold",
+  },
+  listWrap: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  listTitle1: {
+    marginHorizontal: 70,
+    fontFamily: "MPLUSRounded1c_500Medium",
+  },
+  listTitle2: {
+    marginHorizontal: 70,
+    fontFamily: "MPLUSRounded1c_500Medium",
   },
 });
 

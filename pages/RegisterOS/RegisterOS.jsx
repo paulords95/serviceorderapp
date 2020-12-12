@@ -109,7 +109,7 @@ const RegisterOS = ({ route }) => {
   }, [code]);
 
   const handleScanner = () => {
-    navigation.navigate("scanner");
+    navigation.navigate("scanner", "register");
   };
 
   const getUser = async () => {

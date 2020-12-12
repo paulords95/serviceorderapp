@@ -5,13 +5,17 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RectButton } from "react-native-gesture-handler";
 
-export default function App() {
+export default function App({ route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
   const navigation = useNavigation();
   const handleBack = (data) => {
-    navigation.navigate("registerOS", data);
+    if (route.params == "register") {
+      navigation.navigate("registerOS", data);
+    } else {
+      navigation.navigate("checkOS", data);
+    }
   };
 
   useEffect(() => {
