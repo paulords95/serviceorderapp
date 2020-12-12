@@ -111,7 +111,12 @@ const CheckServiceOrder = ({ route }) => {
           <View style={styles.descriptionWrap}>
             <Text style={styles.eqpDescription}>Descrição</Text>
             <Text style={styles.eqpDescriptionText}>
-              PlaceholderPlaceholderPlaceholderPlaceholderPlaceholderPlaceholder
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
+              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum
+              dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
             </Text>
           </View>
           <View
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
   },
   eqpDescriptionText: {
     marginTop: 0,
-    maxWidth: 250,
+    maxWidth: "80%",
     textAlign: "center",
     fontFamily: "MPLUSRounded1c_400Regular",
   },
