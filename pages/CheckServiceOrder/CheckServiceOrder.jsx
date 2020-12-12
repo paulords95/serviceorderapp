@@ -121,14 +121,7 @@ const CheckServiceOrder = ({ route }) => {
               incididunt ut labore et dolore magna aliqua.
             </Text>
           </View>
-          <View
-            style={{
-              marginTop: 40,
-              borderBottomColor: "black",
-              borderBottomWidth: 0.3,
-              alignSelf: "stretch",
-            }}
-          />
+
           <Text style={styles.listTitle}>Ordens de serviço anteriores</Text>
           <View style={styles.listWrap}>
             <Text style={styles.listTitle1}>Descrição</Text>
@@ -254,9 +247,10 @@ const styles = StyleSheet.create({
     fontFamily: "MPLUSRounded1c_400Regular",
   },
   listTitle: {
-    marginTop: 10,
+    marginTop: 40,
     marginBottom: 10,
     fontFamily: "MPLUSRounded1c_700Bold",
+    fontSize: 18,
   },
   listWrap: {
     flex: 1,

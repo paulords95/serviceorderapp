@@ -28,14 +28,15 @@ export default function OlderItem(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: "#003A61",
     flexDirection: "row",
-    backgroundColor: "gray",
-    marginBottom: 10,
+    marginBottom: 5,
     alignItems: "center",
+    borderRadius: 5,
+    paddingVertical: 2,
+    borderTopWidth: 1,
+    borderTopColor: "grey",
   },
   itemDesc: {
-    backgroundColor: "blue",
     textAlign: "center",
     marginLeft: 0,
     maxWidth: 200,
@@ -47,5 +48,6 @@ const styles = StyleSheet.create({
     marginRight: 22,
     marginLeft: 0,
     paddingHorizontal: 10,
+    borderLeftWidth: 1,
   },
 });
