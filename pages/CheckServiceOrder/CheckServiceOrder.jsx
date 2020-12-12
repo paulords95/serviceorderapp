@@ -17,6 +17,8 @@ import {
 import logo from "../../assets/logo2.png";
 import readCodeLogo from "../../assets/phone.png";
 
+import OlderItem from "../../componets/OlderItem/OlderItem";
+
 const CheckServiceOrder = ({ route }) => {
   const [code, setCode] = useState(" ");
   const [postData, setPostData] = useState({
@@ -132,6 +134,33 @@ const CheckServiceOrder = ({ route }) => {
             <Text style={styles.listTitle1}>Descrição</Text>
             <Text style={styles.listTitle2}>Data</Text>
           </View>
+          <View style={styles.olderItemWrap}>
+            <OlderItem
+              desc="consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua."
+              date="02/12/2020"
+            />
+            <OlderItem
+              desc="consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua."
+              date="02/12/2020"
+            />
+            <OlderItem
+              desc="consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua."
+              date="02/12/2020"
+            />
+            <OlderItem
+              desc="consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua."
+              date="02/12/2020"
+            />
+            <OlderItem
+              desc="consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua."
+              date="02/12/2020"
+            />
+          </View>
         </KeyboardAwareScrollView>
       </SafeAreaView>
     );
@@ -240,6 +269,11 @@ const styles = StyleSheet.create({
   listTitle2: {
     marginHorizontal: 70,
     fontFamily: "MPLUSRounded1c_500Medium",
+  },
+  olderItemWrap: {
+    flex: 1,
+    paddingTop: 10,
+    paddingBottom: 30,
   },
 });
 
