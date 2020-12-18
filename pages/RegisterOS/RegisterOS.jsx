@@ -28,8 +28,9 @@ const RegisterOS = ({ route }) => {
   const [priorityValue, setPriorityValue] = useState();
   const [postData, setPostData] = useState({
     codEqp: "",
-    desEqp: "",
+    desAnm: "",
     tipOsv: 1,
+    desEqp: "",
   });
   const [newAlert, setNewAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("Erro!");
@@ -97,8 +98,9 @@ const RegisterOS = ({ route }) => {
       setCode(result);
       setPostData({
         codEqp: result,
-        desEqp: postData.desEqp,
+        desAnm: postData.desAnm,
         tipOsv: postData.tipOsv,
+        desEqp: postData.desEqp,
       });
     }
   }, [route]);
@@ -178,7 +180,7 @@ const RegisterOS = ({ route }) => {
 
     api
       .post(
-        `/api/newos/${user.cod}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}`
+        `/api/newos/${user.cod}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}/${postData.desAnm}`
       )
       .then(function (response) {
         setAlertMessage("O.S Gravada com sucesso!");
@@ -186,7 +188,8 @@ const RegisterOS = ({ route }) => {
         showAlert();
       })
       .catch(function (error) {
-        console.log(error);
+        setAlertMessage("Erro ao gravar");
+        showAlert();
       });
   };
 
@@ -216,6 +219,7 @@ const RegisterOS = ({ route }) => {
                 codEqp: postData.codEqp,
                 desEqp: postData.desEqp,
                 tipOsv: itemValue,
+                desAnm: postData.desAnm,
               });
             }}
           >
@@ -236,8 +240,9 @@ const RegisterOS = ({ route }) => {
               setCode(text);
               setPostData({
                 codEqp: text,
-                desEqp: postData.desEqp,
+                desAnm: postData.desAnm,
                 tipOsv: postData.tipOsv,
+                desEqp: postData.desEqp,
               });
             }}
           ></TextInput>
@@ -265,6 +270,12 @@ const RegisterOS = ({ route }) => {
             style={styles.nameEqInput}
             onChangeText={(text) => {
               setName(text);
+              setPostData({
+                codEqp: postData.codEqp,
+                desAnm: postData.desAnm,
+                tipOsv: postData.tipOsv,
+                desEqp: text,
+              });
             }}
             value={name}
           ></TextInput>
@@ -281,8 +292,9 @@ const RegisterOS = ({ route }) => {
               setDesc(text);
               setPostData({
                 codEqp: postData.codEqp,
-                desEqp: text,
+                desAnm: text,
                 tipOsv: postData.tipOsv,
+                desEqp: postData.desEqp,
               });
             }}
             value={desc}

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Ordens de Serviço",
-    "slug": "unstable",
+    "slug": "personalserviceapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
