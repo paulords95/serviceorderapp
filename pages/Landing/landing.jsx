@@ -5,13 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RectButton } from "react-native-gesture-handler";
 import { Button, Image, StyleSheet, Text, View } from "react-native";
 import {
-  MPLUSRounded1c_100Thin,
-  MPLUSRounded1c_300Light,
-  MPLUSRounded1c_400Regular,
   MPLUSRounded1c_500Medium,
   MPLUSRounded1c_700Bold,
-  MPLUSRounded1c_800ExtraBold,
-  MPLUSRounded1c_900Black,
   useFonts,
 } from "@expo-google-fonts/m-plus-rounded-1c";
 
