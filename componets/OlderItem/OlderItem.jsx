@@ -18,6 +18,7 @@ export default function OlderItem(props) {
   } else {
     return (
       <View style={styles.container}>
+        <Text style={styles.itemName}>{props.name}</Text>
         <Text style={styles.itemDesc}>{props.desc}</Text>
         <Text style={styles.itemDate}>{props.date}</Text>
       </View>
@@ -29,25 +30,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    marginBottom: 5,
     alignItems: "center",
     borderRadius: 5,
-    paddingVertical: 2,
-    borderTopWidth: 1,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderRightWidth: 0.5,
+    borderLeftWidth: 0.5,
     borderTopColor: "grey",
+    width: "100%",
+    height: "100%",
+    marginBottom: 2,
   },
   itemDesc: {
     textAlign: "center",
-    marginLeft: 0,
-    maxWidth: 200,
-    marginRight: 50,
     paddingHorizontal: 10,
+    width: "30%",
+    borderLeftWidth: 0.5,
     minHeight: "100%",
   },
+  itemName: {
+    width: "30%",
+    marginLeft: 20,
+  },
   itemDate: {
-    marginRight: 22,
-    marginLeft: 0,
+    borderLeftWidth: 0.5,
+    textAlign: "center",
     paddingHorizontal: 10,
-    borderLeftWidth: 1,
+    left: 40,
   },
 });

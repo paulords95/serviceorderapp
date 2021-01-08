@@ -30,7 +30,6 @@ export default function Landing() {
   const [user, setUser] = useState();
   const [userValue, setUserValue] = useState();
   const [userList, setUserlist] = useState();
-  const userListArray = [];
 
   const handleLogin = (usr) => {
     navigation.navigate("Landing", usr);
@@ -42,7 +41,9 @@ export default function Landing() {
     try {
       const jsonValue = await AsyncStorage.getItem("user");
       const result = JSON.parse(jsonValue);
+
       if (result != null) {
+        setUserValue(result.name);
         navigation.navigate("Landing", result.name);
       }
     } catch (e) {
@@ -54,7 +55,7 @@ export default function Landing() {
     api
       .get("/api/allUsers")
       .then(function (response) {
-        setUserlist(response.data.data.rows);
+        setUsersObject(response.data);
         getUser();
       })
       .catch(function (error) {
@@ -63,23 +64,7 @@ export default function Landing() {
       .then(function () {});
   }, []);
 
-  const handleApiCallUsers = () => {
-    let newObj = [];
-    for (let i in userList) {
-      userListArray.push(userList[i]);
-    }
-    for (let user of userListArray) {
-      newObj.push({
-        cod: user[1],
-        name: user[0],
-      });
-      setUsersObject(newObj);
-    }
-  };
-
-  useEffect(() => {
-    handleApiCallUsers();
-  }, [userList]);
+  useEffect(() => {}, [userList]);
 
   let [fontsLoaded, error] = useFonts({
     MPLUSRounded1c_700Bold,
@@ -171,13 +156,13 @@ const styles = StyleSheet.create({
     height: Dimensions.get("screen").height - 50,
   },
   logoView: {
-    width: "90%",
+    width: "80%",
     top: 80,
     alignItems: "center",
   },
   logo: {
-    height: 60,
-    width: 322,
+    height: 70,
+    width: 350,
     marginBottom: 70,
   },
   title: {

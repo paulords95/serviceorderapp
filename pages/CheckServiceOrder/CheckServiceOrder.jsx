@@ -17,14 +17,31 @@ import {
 import logo from "../../assets/logo2.png";
 import readCodeLogo from "../../assets/phone.png";
 
-import OlderItem from "../../componets/OlderItem/OlderItem";
+import LastServiceOrder from "../../componets/LastServiceOrder/LastSeviceOrder";
+import api from "../../services/api";
+import SearchEquipament from "../../componets/searchEquipament/searchEquipament";
 
 const CheckServiceOrder = ({ route }) => {
   const [code, setCode] = useState(" ");
+  const [name, setName] = useState("");
+  const [itemsLoaded, setItemsLoaded] = useState(false);
   const [postData, setPostData] = useState({
     codEqp: "",
     desEqp: "",
     tipOsv: 1,
+  });
+  const [lastFive, setLastFive] = useState([]);
+  const [codeBool, setCodeBool] = useState(false);
+  const [searchBool, setSearchBool] = useState(false);
+  const [lastOs, setLastOs] = useState({
+    nameEqp: "",
+    date: "",
+    anomaly: "",
+  });
+  const [searchOs, setSearchOs] = useState({
+    nameEqp: "",
+    date: "",
+    anomaly: "",
   });
   const navigation = useNavigation();
 
@@ -54,6 +71,48 @@ const CheckServiceOrder = ({ route }) => {
     }
   }, [route]);
 
+  useEffect(() => {
+    api
+      .get("/api/lastos")
+      .then((res) => {
+        setLastOs({
+          nameEqp: res.data.nameEqp,
+          date: res.data.date,
+          anomaly: res.data.anomaly,
+        });
+        setItemsLoaded(true);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const handleApiPopulateSearch = (codSearch) => {
+    api
+      .get(`/api/geteqpbycode/${codSearch}`)
+      .then(function (response) {
+        setSearchOs({
+          nameEqp: response.data[0].name,
+          date: response.data[0].date,
+          anomaly: response.data[0].anomaly,
+        });
+        setSearchBool(true);
+        setCodeBool(false);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {});
+  };
+
+  useEffect(() => {
+    if (code.length > 1) {
+      setCodeBool(true);
+      setItemsLoaded(false);
+    } else {
+      setCodeBool(false);
+      setItemsLoaded(true);
+    }
+  });
+
   if (!fontsLoaded) {
     return <AppLoading />;
   } else {
@@ -61,7 +120,7 @@ const CheckServiceOrder = ({ route }) => {
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ alignItems: "center" }}
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
         >
           <View style={styles.logoView}>
             <Image source={logo} style={styles.logo}></Image>
@@ -100,60 +159,52 @@ const CheckServiceOrder = ({ route }) => {
               </View>
             </RectButton>
           </View>
-          <View style={styles.containerWrap}>
-            <View style={styles.eqpInfoWrap}>
-              <Text style={styles.infoTitle}>Nome</Text>
-              <Text style={styles.dataText}>name placeholder</Text>
-            </View>
-            <View style={styles.eqpInfoData}>
-              <Text style={styles.infoTitle}>Data de registro</Text>
-              <Text style={styles.dataText}>20/12/2020</Text>
-            </View>
-          </View>
-          <View style={styles.descriptionWrap}>
-            <Text style={styles.eqpDescription}>Descrição</Text>
-            <Text style={styles.eqpDescriptionText}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum
-              dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
-            </Text>
-          </View>
 
-          <Text style={styles.listTitle}>Ordens de serviço anteriores</Text>
-          <View style={styles.listWrap}>
-            <Text style={styles.listTitle1}>Descrição</Text>
-            <Text style={styles.listTitle2}>Data</Text>
-          </View>
-          <View style={styles.olderItemWrap}>
-            <OlderItem
-              desc="consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua."
-              date="02/12/2020"
+          {codeBool ? (
+            <>
+              {searchBool ? (
+                <SearchEquipament
+                  name={searchOs.nameEqp}
+                  date={searchOs.date}
+                  description={searchOs.anomaly}
+                />
+              ) : (
+                <RectButton>
+                  <Text
+                    style={styles.searchBtnTxt}
+                    onPress={() => {
+                      handleApiPopulateSearch(code);
+                    }}
+                  >
+                    Buscar
+                  </Text>
+                </RectButton>
+              )}
+            </>
+          ) : (
+            <></>
+          )}
+
+          {itemsLoaded ? (
+            <LastServiceOrder
+              name={lastOs.nameEqp}
+              date={lastOs.date}
+              description={lastOs.anomaly}
             />
-            <OlderItem
-              desc="consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua."
-              date="02/12/2020"
-            />
-            <OlderItem
-              desc="consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua."
-              date="02/12/2020"
-            />
-            <OlderItem
-              desc="consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua."
-              date="02/12/2020"
-            />
-            <OlderItem
-              desc="consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua."
-              date="02/12/2020"
-            />
-          </View>
+          ) : (
+            <></>
+          )}
+
+          {/*<RectButton style={styles.backBtn}>
+            <Text
+              style={styles.backBtnTxt}
+              onPress={() => {
+                navigation.navigate("Landing");
+              }}
+            >
+              Voltar
+            </Text>
+          </RectButton>*/}
         </KeyboardAwareScrollView>
       </SafeAreaView>
     );
@@ -165,8 +216,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "#e8f6fc",
-    paddingTop: 10,
-    height: Dimensions.get("screen").height,
   },
   logoView: {
     width: "90%",
@@ -174,8 +223,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    height: 60,
-    width: 322,
+    height: 70,
+    width: 350,
     marginBottom: 50,
   },
   title: {
@@ -232,22 +281,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 20,
   },
-  descriptionWrap: {
-    marginTop: 40,
-  },
-  eqpDescription: {
-    fontFamily: "MPLUSRounded1c_700Bold",
 
-    textAlign: "center",
-  },
-  eqpDescriptionText: {
-    marginTop: 0,
-    maxWidth: "80%",
-    textAlign: "center",
-    fontFamily: "MPLUSRounded1c_400Regular",
-  },
   listTitle: {
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 10,
     fontFamily: "MPLUSRounded1c_700Bold",
     fontSize: 18,
@@ -257,17 +293,39 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   listTitle1: {
-    marginHorizontal: 70,
+    marginHorizontal: 50,
     fontFamily: "MPLUSRounded1c_500Medium",
   },
   listTitle2: {
-    marginHorizontal: 70,
+    marginHorizontal: 50,
     fontFamily: "MPLUSRounded1c_500Medium",
   },
   olderItemWrap: {
     flex: 1,
-    paddingTop: 10,
-    paddingBottom: 30,
+    paddingTop: 5,
+    width: "90%",
+    height: "100%",
+  },
+  searchBtnTxt: {
+    backgroundColor: "#9871f5",
+    color: "white",
+    fontFamily: "MPLUSRounded1c_500Medium",
+    fontSize: 18,
+    padding: 5,
+    borderRadius: 3,
+  },
+  backBtn: {
+    backgroundColor: "#9871f5",
+    marginTop: 50,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 3,
+    bottom: 20,
+  },
+  backBtnTxt: {
+    color: "white",
+    fontFamily: "MPLUSRounded1c_500Medium",
+    fontSize: 18,
   },
 });
 

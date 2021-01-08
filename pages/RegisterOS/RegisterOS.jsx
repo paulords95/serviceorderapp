@@ -14,7 +14,6 @@ import readCodeLogo from "../../assets/phone.png";
 import api from "../../services/api";
 
 import { Picker } from "@react-native-picker/picker";
-import { eq } from "react-native-reanimated";
 
 const RegisterOS = ({ route }) => {
   const [code, setCode] = useState(" ");
@@ -27,7 +26,7 @@ const RegisterOS = ({ route }) => {
   const [desc, setDesc] = useState("");
   const [priorityValue, setPriorityValue] = useState();
   const [postData, setPostData] = useState({
-    codEqp: "",
+    codEqp: "null",
     desAnm: "",
     tipOsv: 1,
     desEqp: "",
@@ -41,6 +40,8 @@ const RegisterOS = ({ route }) => {
     name: "",
   });
   const [completed, setCompleted] = useState(false);
+  const [nameEditable, setNameEditable] = useState(true);
+  const [codeEditable, setCodeEditable] = useState(true);
 
   const eqpArray = [];
 
@@ -61,31 +62,21 @@ const RegisterOS = ({ route }) => {
     api
       .get("/api/allEqps")
       .then(function (response) {
-        setEqpList(response.data.data.rows);
+        for (let i of response.data) {
+          newArray.push(i);
+        }
       })
       .catch(function (error) {
         console.log(error);
       })
-      .then(function () {});
-
-    for (let eqp in eqpList) {
-      eqpArray.push(eqpList[eqp]);
-    }
-
-    for (let user of eqpArray) {
-      newArray.push({
-        cod: user[0],
-        name: user[1],
+      .then(function () {
+        for (let i of newArray) {
+          if (i.cod.trim() == code.trim()) {
+            setCode(i.cod);
+            setName(i.name);
+          }
+        }
       });
-
-      setNewEqpList(newArray);
-    }
-    for (let i of newArray) {
-      if (i.cod.trim() == code.trim()) {
-        setCode(i.cod.toString());
-        setName(i.name.toString());
-      }
-    }
   };
 
   useEffect(() => {
@@ -156,17 +147,7 @@ const RegisterOS = ({ route }) => {
       return;
     }
 
-    if (
-      postData.codEqp === "" ||
-      postData.codEqp === null ||
-      postData.codEqp === undefined
-    ) {
-      setAlertMessage("Código do equipamento não informado!");
-      showAlert();
-      return;
-    }
-
-    if (postData.desEqp.length < 1) {
+    if (postData.desAnm.length < 1) {
       setAlertMessage("Descrição da anomalia não informada!");
       showAlert();
       return;
@@ -180,7 +161,7 @@ const RegisterOS = ({ route }) => {
 
     api
       .post(
-        `/api/newos/${user.cod}/${postData.codEqp}/${postData.desEqp}/${postData.tipOsv}/${postData.desAnm}`
+        `/api/newos/${user.cod}/${postData.codEqp}/${name}/${postData.tipOsv}/${postData.desAnm}`
       )
       .then(function (response) {
         setAlertMessage("O.S Gravada com sucesso!");
@@ -188,7 +169,10 @@ const RegisterOS = ({ route }) => {
         showAlert();
       })
       .catch(function (error) {
-        setAlertMessage("Erro ao gravar");
+        console.log(
+          `/api/newos/${user.cod}/${postData.codEqp}/${name}/${postData.tipOsv}/${postData.desAnm}`
+        );
+        setAlertMessage("Erro ao gravar \n" + error);
         showAlert();
       });
   };
@@ -196,6 +180,19 @@ const RegisterOS = ({ route }) => {
   useEffect(() => {
     getUser();
   }, []);
+
+  useEffect(() => {
+    if (postData.codEqp.length > 0 && postData.codEqp != "null") {
+      setNameEditable(false);
+    } else {
+      setNameEditable(true);
+    }
+    if (name.length > 0) {
+      setCodeEditable(false);
+    } else {
+      setCodeEditable(true);
+    }
+  }, [postData.codEqp, name]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -233,6 +230,7 @@ const RegisterOS = ({ route }) => {
         <View style={styles.readCodWrap}>
           <Text style={styles.inputTitle}>Código</Text>
           <TextInput
+            editable={codeEditable}
             style={styles.newOSInput}
             value={code}
             autoCapitalize={"characters"}
@@ -267,6 +265,7 @@ const RegisterOS = ({ route }) => {
         <View style={styles.eqNameWrap}>
           <Text style={styles.eqTitle}>Nome</Text>
           <TextInput
+            editable={nameEditable}
             style={styles.nameEqInput}
             onChangeText={(text) => {
               setName(text);
@@ -274,7 +273,7 @@ const RegisterOS = ({ route }) => {
                 codEqp: postData.codEqp,
                 desAnm: postData.desAnm,
                 tipOsv: postData.tipOsv,
-                desEqp: text,
+                desEqp: name,
               });
             }}
             value={name}
@@ -282,7 +281,7 @@ const RegisterOS = ({ route }) => {
         </View>
 
         <View style={styles.descWrap}>
-          <Text style={styles.descTitle}>Descrição</Text>
+          <Text style={styles.descTitle}>Anomalia</Text>
           <TextInput
             multiline={true}
             numberOfLines={10}
@@ -342,8 +341,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    height: 60,
-    width: 322,
+    height: 70,
+    width: 350,
     marginBottom: 50,
   },
   title: {
@@ -449,10 +448,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   descInput: {
-    left: -35,
-    width: "95%",
+    left: -50,
+    width: "98%",
+    height: "88%",
     top: 15,
-    height: 140,
     alignSelf: "flex-start",
     textAlignVertical: "top",
   },
