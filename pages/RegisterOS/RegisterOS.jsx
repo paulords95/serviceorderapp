@@ -56,8 +56,6 @@ const RegisterOS = ({ route }) => {
   };
 
   const handleApiPopulateName = () => {
-    //<----------------
-
     const newArray = [];
     api
       .get("/api/allEqps")
